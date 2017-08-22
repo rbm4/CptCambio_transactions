@@ -17,12 +17,5 @@ class ApplicationController < ActionController::Base
     #p res.body
     
     
-    url = URI.parse('https://cpttransactions.herokuapp.com/add_users')
-    req = Net::HTTP::Post.new(url.request_uri)
-    req.set_form_data({'name'=>'Sur Max', 'email'=>'some@email.com'})
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = (url.scheme == "https")
-    response = http.request(req)
-    p response.body
   end
 end
