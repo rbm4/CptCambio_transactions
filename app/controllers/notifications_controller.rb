@@ -1,6 +1,7 @@
 class NotificationsController < ApplicationController
     skip_before_action :verify_authenticity_token, :only => [:add_users]
     def add_users #adicionar usuários originais para o banco
+        @message = ""
         a = User.find_by_name(params["name"])
         if a == nil
             b = User.new
@@ -9,11 +10,11 @@ class NotificationsController < ApplicationController
             b.email = params["email"]
             b.name = params["name"]
             b.save
-            p "usuario #{b.username} adicionado."
+            @message << "usuario #{b.username} adicionado.\n"
         else
-            p "usuario #{a.username} ja existe"
+            @message << "usuario #{a.username} ja existe\n"
         end
-        render "/"
+        
     end
     def create_transaction #registrar 1 entrada e 1 saída de transação entre os usuários dependendo do tipo de transação
     end
