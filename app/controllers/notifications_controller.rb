@@ -1,5 +1,5 @@
 class NotificationsController < ApplicationController
-    skip_before_action :verify_authenticity_token, :only => [:add_users,:create_transaction_exchange]
+    skip_before_action :verify_authenticity_token, :only => [:add_users,:create_transaction_exchange,:get_saldo]
     def add_users #adicionar usuários originais para o banco
         @message = ""
         a = User.find_by_username(params["username"])
