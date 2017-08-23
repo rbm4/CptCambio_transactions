@@ -83,7 +83,8 @@ class NotificationsController < ApplicationController
                 
                 
                 
-                render plain: "saldo do usuário #{user.username}: {'BRL' => #{saldo_brl}, 'BTC' => #{saldo_btc}, 'LTC' => #{saldo_ltc}, 'DOGE' => #{saldo_doge}}"
+                render plain: "{'BRL' => #{saldo_brl}, 'BTC' => #{saldo_btc}, 'LTC' => #{saldo_ltc}, 'DOGE' => #{saldo_doge}}"
+                return
             else 
                 @messages << "Saldo não validado."
             end
