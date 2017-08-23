@@ -91,7 +91,7 @@ class NotificationsController < ApplicationController
                     render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
                 end
             else
-                p "Saldo não validado."
+                p "Saldo não validado. "
                 render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
             end
         end
