@@ -57,6 +57,8 @@ class NotificationsController < ApplicationController
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original})
                 p "verificando operações"
                 if k != nil
+                    p "k é não nulo"
+                    p k
                     k.each do |l|
                         if l.currency == "btc"
                             if l.debit_credit == true #somar
