@@ -56,12 +56,8 @@ class NotificationsController < ApplicationController
                 p "usuario existe"
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original.to_s})
                 p "verificando operações"
-                if k.empty?
-                    messages << "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
-                    p "nenhuma operação para esse usuario"
-                    render plain: @messages
-                else
-                    p "k não está vazio"
+                if k.any?
+                    p "k é não nulo"
                     k.each do |l|
                         if l.currency == "btc"
                             if l.debit_credit == true #somar
@@ -90,6 +86,10 @@ class NotificationsController < ApplicationController
                         end
                     end
                     render plain: "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}}"
+                else
+                    @messages << "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
+                    p "nenhuma operação para esse usuario"
+                    render plain: @messages
                 end
             else
                 
