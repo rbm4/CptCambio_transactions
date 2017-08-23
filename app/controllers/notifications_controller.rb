@@ -42,15 +42,18 @@ class NotificationsController < ApplicationController
     def withdrawal_saldo #remover saldo dos usuários a partir de notificações de retiradas enviadas da aplicação original
     end
     def get_saldo
+        p "get saldo"
         saldo_brl = BigDecimal(0,10)
         saldo_btc = BigDecimal(0,10)
         saldo_ltc = BigDecimal(0,10)
         saldo_doge = BigDecimal(0,10)
         @message = ""
-        if params["user_data"] != nil
-            user = User.find_by_username(params["user_data"]["username"])
-            if user.id_original == params["user_data"]["id_original"]
+        if params["username"] != nil
+            p "usuario => #{params["username"]}"
+            user = User.find_by_username(["username"])
+            if user.id_original == params["id_original"]
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original})
+                
                 if k != nil
                     k.each do |l|
                         if l.currency == "btc"
