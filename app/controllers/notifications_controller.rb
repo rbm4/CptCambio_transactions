@@ -52,11 +52,10 @@ class NotificationsController < ApplicationController
             p "usuario => #{params["username"]}"
             user = User.find_by_username(params["username"])
             p user
-            if String(user.id_original) == params["id_original"].to_s
+            if String(user.id_original) == String(params["id_original"])
                 p "usuario existe"
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original.to_s})
                 p "verificando operações"
-                p k.any?
                 if k.any? 
                     p "k é não nulo"
                     k.each do |l|
@@ -92,8 +91,8 @@ class NotificationsController < ApplicationController
                     render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
                 end
             else
-                
-                @messages << "Saldo não validado."
+                p "Saldo não validado."
+                render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
             end
         end
     end
