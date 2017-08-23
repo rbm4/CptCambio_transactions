@@ -52,6 +52,7 @@ class NotificationsController < ApplicationController
             p "usuario => #{params["username"]}"
             user = User.find_by_username(["username"])
             if user.id_original == params["id_original"]
+                p "usuario existe"
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original})
                 p "verificando operações"
                 if k != nil
