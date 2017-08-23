@@ -56,7 +56,8 @@ class NotificationsController < ApplicationController
                 p "usuario existe"
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original.to_s})
                 p "verificando operações"
-                if k.any?
+                p k.any?
+                if k.any? 
                     p "k é não nulo"
                     k.each do |l|
                         if l.currency == "btc"
