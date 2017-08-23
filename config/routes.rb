@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root 'dashboard#index'
   match '/add_users' , to: 'notifications#add_users', via: [:get, :post]
   post '/add_transaction_exchange' => 'notifications#create_transaction_exchange'
+  post '/get_saldo' => 'notifications#get_saldo'
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

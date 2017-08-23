@@ -41,4 +41,52 @@ class NotificationsController < ApplicationController
     end
     def withdrawal_saldo #remover saldo dos usuários a partir de notificações de retiradas enviadas da aplicação original
     end
+    def get_saldo
+        saldo_brl = BigDecimal(0,10)
+        saldo_btc = BigDecimal(0,10)
+        saldo_ltc = BigDecimal(0,10)
+        saldo_doge = BigDecimal(0,10)
+        @message = ""
+        if params["user_data"] != nil
+            user = User.find_by_username(params["user_data"]["username"])
+            if user.id_original == params["user_data"]["id_original"]
+                k = Operation.where("user_id = :id_original", {id_original: user.id_original})
+                if k != nil
+                    k.each do |l|
+                        if l.currency == "btc"
+                            if l.debit_credit == true #somar
+                                saldo_btc = saldo_btc + l.amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_btc = saldo_btc - l.amount
+                            end
+                        elsif l.currency == "ltc"
+                            if l.debit_credit == true #somar
+                                saldo_ltc = saldo_ltc + l.amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_ltc = saldo_ltc - l.amount
+                            end
+                        elsif l.currency == "doge"
+                            if l.debit_credit == true #somar
+                                saldo_doge = saldo_doge + l.amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_doge = saldo_doge - l.amount
+                            end
+                        elsif l.currency == "brl"
+                            if l.debit_credit == true #somar
+                                saldo_brl = saldo_brl + l.amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_brl = saldo_brl - l.amount
+                            end
+                        end
+                    end
+                end
+                
+                
+                
+                render plain: "saldo do usuário #{user.username}: {'BRL' => #{saldo_brl}, 'BTC' => #{saldo_btc}, 'LTC' => #{saldo_ltc}, 'DOGE' => #{saldo_doge}}"
+            else 
+                @messages << "Saldo não validado."
+            end
+        end
+    end
 end
