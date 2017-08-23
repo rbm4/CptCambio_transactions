@@ -53,7 +53,7 @@ class NotificationsController < ApplicationController
             user = User.find_by_username(["username"])
             if user.id_original == params["id_original"]
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original})
-                
+                p "verificando operações"
                 if k != nil
                     k.each do |l|
                         if l.currency == "btc"
@@ -82,13 +82,12 @@ class NotificationsController < ApplicationController
                             end
                         end
                     end
+                    @messages << "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}}"
+                else
+                    p "nenhuma operação para esse usuario"
                 end
-                
-                
-                
-                @messages << "{'BRL' => #{saldo_brl}, 'BTC' => #{saldo_btc}, 'LTC' => #{saldo_ltc}, 'DOGE' => #{saldo_doge}}"
-                
-            else 
+            else
+                p "não validado"
                 @messages << "Saldo não validado."
             end
         end
