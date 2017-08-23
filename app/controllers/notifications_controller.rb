@@ -84,10 +84,14 @@ class NotificationsController < ApplicationController
                             end
                         end
                     end
-                    @messages << "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}}"
+                    render plain: "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}}"
+                else
+                    @messages << "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
+                    p "nenhuma operação para esse usuario"
+                    render plain: @messages
                 end
             else
-                p "nenhuma operação para esse usuario"
+                
                 @messages << "Saldo não validado."
             end
         end
