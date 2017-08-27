@@ -37,6 +37,7 @@ class NotificationsController < ApplicationController
         end
     end
     def add_saldo #adicionar saldo aos usuários a partir de notificações de depósito enviadas da aplicação original
+        returno = ""
     #validar comunicação
         if params["username"] != nil
             user = User.find_by_username(params["username"])
@@ -46,13 +47,13 @@ class NotificationsController < ApplicationController
                 a.type = params["type"]
                 a.user_id = params["user_id"]
                 a.debit_credit = true
-                a.amount
+                a.amount = params["amount"]
                 a.save
             else
-                p "usuario não existe"
+                returno << "usuario não existe ou o id_original está errado."
             end
         end
-        
+        render plain: "#{returno}"
     end
     def withdrawal_saldo #remover saldo dos usuários a partir de notificações de retiradas enviadas da aplicação original
     end
@@ -74,23 +75,24 @@ class NotificationsController < ApplicationController
                 if k.any? 
                     p "k é não nulo"
                     k.each do |l|
+                        amount = BigDecimal(l.amount,8)
                         if l.currency == "BTC"
                             if l.debit_credit == true #somar
-                                saldo_btc = saldo_btc + l.amount
+                                saldo_btc = saldo_btc + amount
                             elsif l.debit_credit == false #subtrair
-                                saldo_btc = saldo_btc - l.amount
+                                saldo_btc = saldo_btc - amount
                             end
                         elsif l.currency == "LTC"
                             if l.debit_credit == true #somar
-                                saldo_ltc = saldo_ltc + l.amount
+                                saldo_ltc = saldo_ltc + amount
                             elsif l.debit_credit == false #subtrair
-                                saldo_ltc = saldo_ltc - l.amount
+                                saldo_ltc = saldo_ltc - amount
                             end
                         elsif l.currency == "DOGE"
                             if l.debit_credit == true #somar
-                                saldo_doge = saldo_doge + l.amount
+                                saldo_doge = saldo_doge + amount
                             elsif l.debit_credit == false #subtrair
-                                saldo_doge = saldo_doge - l.amount
+                                saldo_doge = saldo_doge - amount
                             end
                         elsif l.currency == "BRL"
                             if l.debit_credit == true #somar
