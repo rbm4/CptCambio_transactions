@@ -23,7 +23,7 @@ class NotificationsController < ApplicationController
         #validar se a requisição vem da aplicação principal
         a = Operation.new
         a.currency = params["currency"]
-        a.type = params["type"]
+        a.tipo = params["type"]
         a.user_id = params["user_id"]
         #true = contabilizar crédito
         #false = subtrair crédito
@@ -44,7 +44,7 @@ class NotificationsController < ApplicationController
             if user != nil && String(user.id_original) == String(params["id_original"])
                 a = Operation.new
                 a.currency = params["currency"].upcase
-                a.type = params["type"]
+                a.tipo = params["type"]
                 a.user_id = params["user_id"]
                 a.debit_credit = true
                 a.amount = params["amount"]
