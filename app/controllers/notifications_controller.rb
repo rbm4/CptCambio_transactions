@@ -75,7 +75,7 @@ class NotificationsController < ApplicationController
                 if k.any? 
                     k.each do |l|
                         amount = BigDecimal(l.amount,8)
-                        p k
+                        p l
                         if l.currency == "BTC"
                             if l.debit_credit == true #somar
                                 saldo_btc = saldo_btc + amount
