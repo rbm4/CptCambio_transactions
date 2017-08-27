@@ -72,7 +72,7 @@ class NotificationsController < ApplicationController
             p "usuario => #{params["username"]}"
             user = User.find_by_username(params["username"])
             p user
-            if String(user.id_original) == String(params["id_original"]) && user != nil
+            if (String(user.id_original) == String(params["id_original"]) && user != nil)
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original.to_s})
                 if k.any? 
                     p "k é não nulo"
