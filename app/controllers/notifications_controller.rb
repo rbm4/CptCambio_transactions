@@ -45,7 +45,7 @@ class NotificationsController < ApplicationController
                 a = Operation.new
                 a.currency = params["currency"].upcase
                 a.tipo = params["type"]
-                a.user_id = params["user_id"]
+                a.user_id = params["id_original"]
                 a.debit_credit = true
                 a.amount = params["amount"]
                 a.save
@@ -69,9 +69,7 @@ class NotificationsController < ApplicationController
             user = User.find_by_username(params["username"])
             p user
             if String(user.id_original) == String(params["id_original"])
-                p "usuario existe"
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original.to_s})
-                p "verificando operações"
                 if k.any? 
                     p "k é não nulo"
                     k.each do |l|
