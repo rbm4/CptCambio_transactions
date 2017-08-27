@@ -96,9 +96,9 @@ class NotificationsController < ApplicationController
                             end
                         elsif l.currency == "BRL"
                             if l.debit_credit == true #somar
-                                saldo_brl = saldo_brl + l.amount
+                                saldo_brl = saldo_brl + amount
                             elsif l.debit_credit == false #subtrair
-                                saldo_brl = saldo_brl - l.amount
+                                saldo_brl = saldo_brl - amount
                             end
                         end
                     end
