@@ -46,7 +46,11 @@ class NotificationsController < ApplicationController
                 a.currency = params["currency"].upcase
                 a.tipo = params["type"]
                 a.user_id = params["id_original"]
-                a.debit_credit = true
+                if a.tipo == "exchange_sell" or a.tipo == "withdrawal"
+                    a.debit_credit = false
+                else
+                    a.debit_credit = true
+                end
                 a.amount = params["amount"]
                 a.save
             else
