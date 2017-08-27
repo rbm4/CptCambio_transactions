@@ -62,23 +62,20 @@ class NotificationsController < ApplicationController
     def withdrawal_saldo #remover saldo dos usuários a partir de notificações de retiradas enviadas da aplicação original
     end
     def get_saldo
-        p "get saldo"
         saldo_brl = BigDecimal(0,10)
         saldo_btc = BigDecimal(0,10)
         saldo_ltc = BigDecimal(0,10)
         saldo_doge = BigDecimal(0,10)
         @message = ""
         if params["username"] != nil
-            p "usuario => #{params["username"]}"
             user = User.find_by_username(params["username"])
             p user
             if (user != nil && String(user.id_original) == String(params["id_original"]))
-                p "não deve entrar aqui"
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original.to_s})
                 if k.any? 
-                    p "k é não nulo"
                     k.each do |l|
                         amount = BigDecimal(l.amount,8)
+                        p k
                         if l.currency == "BTC"
                             if l.debit_credit == true #somar
                                 saldo_btc = saldo_btc + amount
@@ -106,13 +103,16 @@ class NotificationsController < ApplicationController
                         end
                     end
                     render plain: "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}}"
+                    return
                 else
                     p "nenhuma operação para esse usuario"
                     render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
+                    return
                 end
             else
                 p "Saldo não validado. "
                 render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
+                return
             end
         end
         p "aqui?"
