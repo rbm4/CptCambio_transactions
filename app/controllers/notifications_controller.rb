@@ -40,7 +40,7 @@ class NotificationsController < ApplicationController
     #validar comunicação
         if params["username"] != nil
             user = User.find_by_username(params["username"])
-            if String(user.id_original) == String(params["id_original"])
+            if user != nil && String(user.id_original) == String(params["id_original"])
                 a = Operation.new
                 a.currency = params["currency"].upcase
                 a.type = params["type"]
@@ -48,6 +48,8 @@ class NotificationsController < ApplicationController
                 a.debit_credit = true
                 a.amount
                 a.save
+            else
+                p "usuario não existe"
             end
         end
         
