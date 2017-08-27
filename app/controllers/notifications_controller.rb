@@ -72,7 +72,8 @@ class NotificationsController < ApplicationController
             p "usuario => #{params["username"]}"
             user = User.find_by_username(params["username"])
             p user
-            if (String(user.id_original) == String(params["id_original"]) && user != nil)
+            if (user != nil && String(user.id_original) == String(params["id_original"]))
+                p "não deve entrar aqui"
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original.to_s})
                 if k.any? 
                     p "k é não nulo"
@@ -114,5 +115,6 @@ class NotificationsController < ApplicationController
                 render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
             end
         end
+        p "aqui?"
     end
 end
