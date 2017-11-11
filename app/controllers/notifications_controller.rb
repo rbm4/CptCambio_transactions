@@ -17,8 +17,8 @@ class NotificationsController < ApplicationController
         
     end
     def create_transaction_exchange 
-    #registrar 1 entrada e 1 saída de transação entre os usuários dependendo do tipo de transação da exchange, 
-    #deverá adicionar saldo para um usuário, tirar de outro e registrar a quantidade de valor em taxas arrecadado
+        #registrar 1 entrada e 1 saída de transação entre os usuários dependendo do tipo de transação da exchange, 
+        #deverá adicionar saldo para um usuário, tirar de outro e registrar a quantidade de valor em taxas arrecadado
         @message = ""
         #validar se a requisição vem da aplicação principal
         a = Operation.new
@@ -38,7 +38,7 @@ class NotificationsController < ApplicationController
     end
     def add_saldo #adicionar saldo aos usuários a partir de notificações de depósito enviadas da aplicação original
         returno = ""
-    #validar comunicação
+        #validar comunicação
         if params["username"] != nil
             user = User.find_by_username(params["username"])
             if user != nil && String(user.id_original) == String(params["id_original"])
@@ -115,6 +115,9 @@ class NotificationsController < ApplicationController
                 return
             end
         end
-        p "aqui?"
+        p "Usuário genérico não relacionado em local algum"
+        render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
+        return
     end
+    
 end
