@@ -1,5 +1,6 @@
 class NotificationsController < ApplicationController
-    skip_before_action :verify_authenticity_token, :only => [:add_users,:create_transaction_exchange,:get_saldo,:add_saldo]
+    before_action :verify_key
+    skip_before_action :verify_authenticity_token, :only => [:add_users,:create_transaction_exchange,:get_saldo,:add_saldo,:update_user]
     def add_users #adicionar usuários originais para o banco
         @message = ""
         a = User.find_by_username(params["username"])
@@ -118,6 +119,8 @@ class NotificationsController < ApplicationController
         p "Usuário genérico não relacionado em local algum"
         render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
         return
+    end
+    def update_user
     end
     
 end

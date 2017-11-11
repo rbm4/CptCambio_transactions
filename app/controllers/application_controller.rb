@@ -4,6 +4,15 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
   helper_method :teste_ping
+  helper_method :verify_key
+  
+  def verify_key
+    if params['key'] == ENV["TRANSACTION_KEY"]
+      true
+    else
+      false
+    end
+  end
   
   def teste_ping
     #uri = URI('https://cpttransactions.herokuapp.com/add_users')
