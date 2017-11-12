@@ -67,16 +67,15 @@ class NotificationsController < ApplicationController
         saldo_btc = BigDecimal(0,10)
         saldo_ltc = BigDecimal(0,10)
         saldo_doge = BigDecimal(0,10)
+        saldo_eth = BigDecimal(0,10)
         @message = ""
         if params["username"] != nil
             user = User.find_by_username(params["username"])
-            p user
             if (user != nil && String(user.id_original) == String(params["id_original"]))
                 k = Operation.where("user_id = :id_original", {id_original: user.id_original.to_s})
                 if k.any? 
                     k.each do |l|
                         amount = BigDecimal(l.amount,8)
-                        p l
                         if l.currency == "BTC"
                             if l.debit_credit == true #somar
                                 saldo_btc = saldo_btc + amount
@@ -101,23 +100,29 @@ class NotificationsController < ApplicationController
                             elsif l.debit_credit == false #subtrair
                                 saldo_brl = saldo_brl - amount
                             end
+                        elsif l.currency == "ETH"
+                            if l.debit_credit == true #somar
+                                saldo_eth = saldo_eth + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_eth = saldo_eth - amount
+                            end
                         end
                     end
-                    render plain: "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}}"
+                    render plain: "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}, 'ETH' => #{saldo_eth.to_s}}"
                     return
                 else
                     p "nenhuma operação para esse usuario"
-                    render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
+                    render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0}"
                     return
                 end
             else
                 p "Saldo não validado. "
-                render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
+                render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0}"
                 return
             end
         end
         p "Usuário genérico não relacionado em local algum"
-        render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0}"
+        render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0}"
         return
     end
     def update_user
