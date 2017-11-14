@@ -41,7 +41,7 @@ class NotificationsController < ApplicationController
         returno = ""
         #validar comunicação
         if params["username"] != nil
-            user = User.find_by_username(params["username"])
+            user = User.find_by_id_original(params["id_original"])
             if user != nil && String(user.id_original) == String(params["id_original"])
                 a = Operation.new
                 a.currency = params["currency"].upcase
@@ -71,9 +71,9 @@ class NotificationsController < ApplicationController
         saldo_eth = BigDecimal(0,10)
         @message = ""
         if params["username"] != nil
-            user = User.find_by_username(params["username"])
-            if (user != nil && String(user.id_original) == String(params["id_original"]))
-                k = Operation.where("user_id = :id_original", {id_original: user.id_original.to_s})
+            user = User.find_by_id_original(params["id_original"])
+            if user != nil 
+                k = user.operation.all
                 if k.any? 
                     k.each do |l|
                         amount = BigDecimal(l.amount,8)
