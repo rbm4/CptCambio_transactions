@@ -133,6 +133,7 @@ class NotificationsController < ApplicationController
             b = User.new
             b.username = params["username"]
             b.email = params["email"]
+            b.id_original = params["id_original"]
             b.name = params["name"]
             b.save
             @message << "usuario #{b.username} adicionado.\n"
@@ -140,6 +141,7 @@ class NotificationsController < ApplicationController
             b = User.find_by_id_original(params["id_original"])
             b.username = params["username"]
             b.email = params["email"]
+            b.id_original = params["id_original"]
             b.name = params["name"]
             b.save
             @message << "usuario #{a.username} ja existe, atualizado\n"
