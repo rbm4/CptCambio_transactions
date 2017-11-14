@@ -57,7 +57,7 @@ class NotificationsController < ApplicationController
         else
             returno << "usuario nao existe ou o id_original esta errado."
         end
-        render plain: "#{returno}"
+        render plain: Integer(returno)
     end
     def withdrawal_saldo #remover saldo dos usuários a partir de notificações de retiradas enviadas da aplicação original
     end
