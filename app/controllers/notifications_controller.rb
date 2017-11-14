@@ -40,24 +40,22 @@ class NotificationsController < ApplicationController
     def add_saldo #adicionar saldo aos usuários a partir de notificações de depósito enviadas da aplicação original
         returno = ""
         #validar comunicação
-        if params["username"] != nil
-            user = User.find_by_id_original(params["id_original"])
-            if user != nil && String(user.id_original) == String(params["id_original"])
-                a = Operation.new
-                a.currency = params["currency"].upcase
-                a.tipo = params["type"]
-                a.user_id = params["id_original"]
-                if a.tipo == "exchange_sell" or a.tipo == "withdrawal" or a.tipo == "exchange_buy"
-                    a.debit_credit = false
-                else
-                    a.debit_credit = true
-                end
-                a.amount = params["amount"]
-                a.save
-                returno << a.id
+        user = User.find_by_id_original(params["id_original"])
+        if user != nil 
+            a = user.operation.new
+            a.currency = params["currency"].upcase
+            a.tipo = params["type"]
+            a.user_id = params["id_original"]
+            if a.tipo == "exchange_sell" or a.tipo == "withdrawal" or a.tipo == "exchange_buy"
+                a.debit_credit = false
             else
-                returno << "usuario nao existe ou o id_original esta errado."
+                a.debit_credit = true
             end
+            a.amount = params["amount"]
+            a.save
+            returno << a.id
+        else
+            returno << "usuario nao existe ou o id_original esta errado."
         end
         render plain: "#{returno}"
     end
