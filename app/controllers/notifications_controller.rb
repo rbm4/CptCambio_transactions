@@ -54,6 +54,7 @@ class NotificationsController < ApplicationController
                 end
                 a.amount = params["amount"]
                 a.save
+                returno << a.id
             else
                 returno << "usuario nao existe ou o id_original esta errado."
             end
