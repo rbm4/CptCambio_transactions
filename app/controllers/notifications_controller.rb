@@ -66,6 +66,7 @@ class NotificationsController < ApplicationController
         saldo_brl = BigDecimal(0,10)
         saldo_xmr = BigDecimal(0,10)
         saldo_bch = BigDecimal(0,10)
+        saldo_btc = BigDecimal(0,10)
         saldo_dash = BigDecimal(0,10)
         saldo_ltc = BigDecimal(0,10)
         saldo_doge = BigDecimal(0,10)
