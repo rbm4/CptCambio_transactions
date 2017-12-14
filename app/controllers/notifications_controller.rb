@@ -64,7 +64,9 @@ class NotificationsController < ApplicationController
     end
     def get_saldo
         saldo_brl = BigDecimal(0,10)
-        saldo_btc = BigDecimal(0,10)
+        saldo_xmr = BigDecimal(0,10)
+        saldo_bch = BigDecimal(0,10)
+        saldo_dash = BigDecimal(0,10)
         saldo_ltc = BigDecimal(0,10)
         saldo_doge = BigDecimal(0,10)
         saldo_eth = BigDecimal(0,10)
@@ -87,6 +89,24 @@ class NotificationsController < ApplicationController
                         elsif l.debit_credit == false #subtrair
                             saldo_ltc = saldo_ltc - amount
                         end
+                    elsif l.currency == "XMR"
+                        if l.debit_credit == true #somar
+                            saldo_xmr = saldo_xmr + amount
+                        elsif l.debit_credit == false #subtrair
+                            saldo_xmr = saldo_xmr - amount
+                        end
+                    elsif l.currency == "BCH"
+                        if l.debit_credit == true #somar
+                            saldo_bch = saldo_bch + amount
+                        elsif l.debit_credit == false #subtrair
+                            saldo_bch = saldo_bch - amount
+                        end
+                    elsif l.currency == "DASH"
+                        if l.debit_credit == true #somar
+                            saldo_dash = saldo_dash + amount
+                        elsif l.debit_credit == false #subtrair
+                            saldo_dash = saldo_dash - amount
+                        end
                     elsif l.currency == "DOGE"
                         if l.debit_credit == true #somar
                             saldo_doge = saldo_doge + amount
@@ -107,21 +127,21 @@ class NotificationsController < ApplicationController
                         end
                     end
                 end
-                render plain: "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}, 'ETH' => #{saldo_eth.to_s}}"
+                render plain: "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}, 'ETH' => #{saldo_eth.to_s}, 'BCH' => #{saldo_bch.to_s}, 'XMR' => #{saldo_xmr.to_s}, 'DASH' => #{saldo_dash.to_s}}"
                 return
             else
                 p "nenhuma operação para esse usuario"
-                render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0}"
+                render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0, 'XMR' => 0, 'DASH' => 0, 'BCH' => 0}"
                 return
             end
         else
             p "Saldo não validado. "
-            render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0}"
+            render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0, 'XMR' => 0, 'DASH' => 0, 'BCH' => 0}"
             return
         end
         
         p "Usuário genérico não relacionado em local algum"
-        render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0}"
+        render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0, 'XMR' => 0, 'DASH' => 0, 'BCH' => 0}"
         return
     end
     def update_user
