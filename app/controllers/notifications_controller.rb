@@ -132,17 +132,17 @@ class NotificationsController < ApplicationController
                 return
             else
                 p "nenhuma operação para esse usuario"
-                render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0, 'XMR' => 0, 'DASH' => 0, 'BCH' => 0}"
+                render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
                 return
             end
         else
             p "Saldo não validado. "
-            render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0, 'XMR' => 0, 'DASH' => 0, 'BCH' => 0}"
+            render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
             return
         end
         
         p "Usuário genérico não relacionado em local algum"
-        render plain: "{'BRL' => 0, 'BTC' => 0, 'LTC' => 0, 'DOGE' => 0, 'ETH' => 0, 'XMR' => 0, 'DASH' => 0, 'BCH' => 0}"
+        render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
         return
     end
     def update_user
