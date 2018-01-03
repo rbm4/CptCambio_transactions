@@ -1,4 +1,4 @@
-class Api::V1::UserSerializer
+class Api::V1::UserSerializer < User
   attributes :id, :email, :name,  :id_original, :username, :created_at, :updated_at
 
   has_many :operations
