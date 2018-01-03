@@ -3,13 +3,13 @@ class NotificationsController < ApplicationController
     skip_before_action :verify_authenticity_token, :only => [:add_users,:create_transaction_exchange,:get_saldo,:add_saldo,:update_user]
     def add_users #adicionar usuários originais para o banco
         @message = ""
-        a = User.find_by_id_original(params["id_original"])
+        a = User.find_by_id_original(@params["id_original"])
         if a == nil
             b = User.new
-            b.username = params["username"]
-            b.id_original = params["id_original"]
-            b.email = params["email"]
-            b.name = params["name"]
+            b.username = @params["username"]
+            b.id_original = @params["id_original"]
+            b.email = @params["email"]
+            b.name = @params["name"]
             b.save
             @message << "usuario #{b.username} adicionado.\n"
         else
@@ -23,14 +23,14 @@ class NotificationsController < ApplicationController
         @message = ""
         #validar se a requisição vem da aplicação principal
         a = Operation.new
-        a.currency = params["currency"]
-        a.tipo = params["type"]
-        a.user_id = params["user_id"]
+        a.currency = @params["currency"]
+        a.tipo = @params["type"]
+        a.user_id = @params["user_id"]
         #true = contabilizar crédito
         #false = subtrair crédito
-        a.debit_credit = params["debit_credit"]
+        a.debit_credit = @params["debit_credit"]
         
-        a.amount = params['amount']
+        a.amount = @params['amount']
         if a.save
             @message << "transação salva."
         else
@@ -40,17 +40,17 @@ class NotificationsController < ApplicationController
     def add_saldo #adicionar saldo aos usuários a partir de notificações de depósito enviadas da aplicação original
         returno = ""
         #validar comunicação
-        user = User.find_by_id_original(params["id_original"])
+        user = User.find_by_id_original(@params["id_original"])
         if user != nil 
             a = user.operation.new
-            a.currency = params["currency"].upcase
-            a.tipo = params["type"]
+            a.currency = @params["currency"].upcase
+            a.tipo = @params["type"]
             if a.tipo == "exchange_sell" or a.tipo == "withdrawal" or a.tipo == "exchange_buy"
                 a.debit_credit = false
             else
                 a.debit_credit = true
             end
-            a.amount = params["amount"]
+            a.amount = @params["amount"]
             a.save
             returno << a.id
             render plain: a.id
@@ -147,21 +147,21 @@ class NotificationsController < ApplicationController
     end
     def update_user
         @message = ""
-        a = User.find_by_id_original(params["id_original"])
+        a = User.find_by_id_original(@params["id_original"])
         if a == nil
             b = User.new
-            b.username = params["username"]
-            b.email = params["email"]
-            b.id_original = params["id_original"]
-            b.name = params["name"]
+            b.username = @params["username"]
+            b.email = @params["email"]
+            b.id_original = @params["id_original"]
+            b.name = @params["name"]
             b.save
             @message << "usuario #{b.username} adicionado.\n"
         else
-            b = User.find_by_id_original(params["id_original"])
-            b.username = params["username"]
-            b.email = params["email"]
-            b.id_original = params["id_original"]
-            b.name = params["name"]
+            b = User.find_by_id_original(@params["id_original"])
+            b.username = @params["username"]
+            b.email = @params["email"]
+            b.id_original = @params["id_original"]
+            b.name = @params["name"]
             b.save
             @message << "usuario #{a.username} ja existe, atualizado\n"
         end
