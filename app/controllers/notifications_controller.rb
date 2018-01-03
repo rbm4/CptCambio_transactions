@@ -72,7 +72,7 @@ class NotificationsController < ApplicationController
         saldo_doge = BigDecimal(0,10)
         saldo_eth = BigDecimal(0,10)
         @message = ""
-        user = User.find_by_id_original(params["id_original"])
+        user = User.find_by_id_original(@params["id_original"])
         if !user.nil?
             k = user.operation.all
             if k.any? 
