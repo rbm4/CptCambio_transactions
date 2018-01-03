@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base
   helper_method :verify_key
   
   def verify_key
+    decipher = OpenSSL::Cipher::AES.new(128, :CBC)
+    decipher.decrypt
+    decipher.key = ENV["CIPHER_RANDOM"]
+    decipher.iv = ENV["CIPHER_IV"]
+    
+    p plain = decipher.update(encrypted) + decipher.final
+    params = eval(plain)
     if params['key'] == ENV["TRANSACTION_KEY"]
       true
     else
