@@ -128,7 +128,7 @@ class NotificationsController < ApplicationController
                         end
                     end
                 end
-                render plain: "{'BRL' => #{saldo_brl.to_s}, 'BTC' => #{saldo_btc.to_s}, 'LTC' => #{saldo_ltc.to_s}, 'DOGE' => #{saldo_doge.to_s}, 'ETH' => #{saldo_eth.to_s}, 'BCH' => #{saldo_bch.to_s}, 'XMR' => #{saldo_xmr.to_s}, 'DASH' => #{saldo_dash.to_s}}"
+                render plain: "{'BRL' => '#{saldo_brl.to_s}', 'BTC' => '#{saldo_btc.to_s}', 'LTC' => '#{saldo_ltc.to_s}', 'DOGE' => '#{saldo_doge.to_s}', 'ETH' => '#{saldo_eth.to_s}', 'BCH' => '#{saldo_bch.to_s}', 'XMR' => '#{saldo_xmr.to_s}', 'DASH' => '#{saldo_dash.to_s}'}"
                 return
             else
                 p "nenhuma operação para esse usuario"
