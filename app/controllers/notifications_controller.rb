@@ -38,112 +38,119 @@ class NotificationsController < ApplicationController
         end
     end
     def add_saldo #adicionar saldo aos usuários a partir de notificações de depósito enviadas da aplicação original
-        returno = ""
-        #validar comunicação
-        user = User.find_by_id_original(@params["id_original"])
-        if user != nil 
-            a = user.operation.new
-            a.currency = @params["currency"].upcase
-            a.tipo = @params["type"]
-            if a.tipo == "exchange_sell" or a.tipo == "withdrawal" or a.tipo == "exchange_buy"
-                a.debit_credit = false
+        begin
+            returno = ""
+            #validar comunicação
+            user = User.find_by_id_original(@params["id_original"])
+            if user != nil 
+                a = user.operation.new
+                a.currency = @params["currency"].upcase
+                a.tipo = @params["type"]
+                if a.tipo == "exchange_sell" or a.tipo == "withdrawal" or a.tipo == "exchange_buy"
+                    a.debit_credit = false
+                else
+                    a.debit_credit = true
+                end
+                a.amount = @params["amount"]
+                a.save
+                returno << a.id
+                render plain: "{'status' => 'ok', 'id' => #{a.id}}" 
             else
-                a.debit_credit = true
+                returno << "usuario nao existe ou o id_original esta errado."
+                render plain: "{'status' => 'usuario invalido', 'id' => #{Integer(returno)}}"
             end
-            a.amount = @params["amount"]
-            a.save
-            returno << a.id
-            render plain: a.id
-        else
-            returno << "usuario nao existe ou o id_original esta errado."
-            render plain: "#{Integer(returno)}"
+        rescue
+            render plain: "{'status' => 'Something went wrong'}"
         end
-        
     end
     def withdrawal_saldo #remover saldo dos usuários a partir de notificações de retiradas enviadas da aplicação original
     end
     def get_saldo
-        saldo_brl = BigDecimal(0,10)
-        saldo_xmr = BigDecimal(0,10)
-        saldo_bch = BigDecimal(0,10)
-        saldo_btc = BigDecimal(0,10)
-        saldo_dash = BigDecimal(0,10)
-        saldo_ltc = BigDecimal(0,10)
-        saldo_doge = BigDecimal(0,10)
-        saldo_eth = BigDecimal(0,10)
-        @message = ""
-        user = User.find_by_id_original(@params["id_original"])
-        if !user.nil?
-            k = user.operation.all
-            if k.any? 
-                k.each do |l|
-                    amount = BigDecimal(l.amount,8)
-                    if l.currency == "BTC"
-                        if l.debit_credit == true #somar
-                            saldo_btc = saldo_btc + amount
-                        elsif l.debit_credit == false #subtrair
-                            saldo_btc = saldo_btc - amount
-                        end
-                    elsif l.currency == "LTC"
-                        if l.debit_credit == true #somar
-                            saldo_ltc = saldo_ltc + amount
-                        elsif l.debit_credit == false #subtrair
-                            saldo_ltc = saldo_ltc - amount
-                        end
-                    elsif l.currency == "XMR"
-                        if l.debit_credit == true #somar
-                            saldo_xmr = saldo_xmr + amount
-                        elsif l.debit_credit == false #subtrair
-                            saldo_xmr = saldo_xmr - amount
-                        end
-                    elsif l.currency == "BCH"
-                        if l.debit_credit == true #somar
-                            saldo_bch = saldo_bch + amount
-                        elsif l.debit_credit == false #subtrair
-                            saldo_bch = saldo_bch - amount
-                        end
-                    elsif l.currency == "DASH"
-                        if l.debit_credit == true #somar
-                            saldo_dash = saldo_dash + amount
-                        elsif l.debit_credit == false #subtrair
-                            saldo_dash = saldo_dash - amount
-                        end
-                    elsif l.currency == "DOGE"
-                        if l.debit_credit == true #somar
-                            saldo_doge = saldo_doge + amount
-                        elsif l.debit_credit == false #subtrair
-                            saldo_doge = saldo_doge - amount
-                        end
-                    elsif l.currency == "BRL"
-                        if l.debit_credit == true #somar
-                            saldo_brl = saldo_brl + amount
-                        elsif l.debit_credit == false #subtrair
-                            saldo_brl = saldo_brl - amount
-                        end
-                    elsif l.currency == "ETH"
-                        if l.debit_credit == true #somar
-                            saldo_eth = saldo_eth + amount
-                        elsif l.debit_credit == false #subtrair
-                            saldo_eth = saldo_eth - amount
+        begin
+            saldo_brl = BigDecimal(0,10)
+            saldo_xmr = BigDecimal(0,10)
+            saldo_bch = BigDecimal(0,10)
+            saldo_btc = BigDecimal(0,10)
+            saldo_dash = BigDecimal(0,10)
+            saldo_ltc = BigDecimal(0,10)
+            saldo_doge = BigDecimal(0,10)
+            saldo_eth = BigDecimal(0,10)
+            @message = ""
+            user = User.find_by_id_original(@params["id_original"])
+            if !user.nil?
+                k = user.operation.all
+                if k.any? 
+                    k.each do |l|
+                        amount = BigDecimal(l.amount,8)
+                        if l.currency == "BTC"
+                            if l.debit_credit == true #somar
+                                saldo_btc = saldo_btc + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_btc = saldo_btc - amount
+                            end
+                        elsif l.currency == "LTC"
+                            if l.debit_credit == true #somar
+                                saldo_ltc = saldo_ltc + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_ltc = saldo_ltc - amount
+                            end
+                        elsif l.currency == "XMR"
+                            if l.debit_credit == true #somar
+                                saldo_xmr = saldo_xmr + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_xmr = saldo_xmr - amount
+                            end
+                        elsif l.currency == "BCH"
+                            if l.debit_credit == true #somar
+                                saldo_bch = saldo_bch + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_bch = saldo_bch - amount
+                            end
+                        elsif l.currency == "DASH"
+                            if l.debit_credit == true #somar
+                                saldo_dash = saldo_dash + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_dash = saldo_dash - amount
+                            end
+                        elsif l.currency == "DOGE"
+                            if l.debit_credit == true #somar
+                                saldo_doge = saldo_doge + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_doge = saldo_doge - amount
+                            end
+                        elsif l.currency == "BRL"
+                            if l.debit_credit == true #somar
+                                saldo_brl = saldo_brl + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_brl = saldo_brl - amount
+                            end
+                        elsif l.currency == "ETH"
+                            if l.debit_credit == true #somar
+                                saldo_eth = saldo_eth + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_eth = saldo_eth - amount
+                            end
                         end
                     end
+                    render plain: "{'BRL' => '#{saldo_brl.to_s}', 'BTC' => '#{saldo_btc.to_s}', 'LTC' => '#{saldo_ltc.to_s}', 'DOGE' => '#{saldo_doge.to_s}', 'ETH' => '#{saldo_eth.to_s}', 'BCH' => '#{saldo_bch.to_s}', 'XMR' => '#{saldo_xmr.to_s}', 'DASH' => '#{saldo_dash.to_s}'}"
+                    return
+                else
+                    p "nenhuma operação para esse usuario"
+                    render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
+                    return
                 end
-                render plain: "{'BRL' => '#{saldo_brl.to_s}', 'BTC' => '#{saldo_btc.to_s}', 'LTC' => '#{saldo_ltc.to_s}', 'DOGE' => '#{saldo_doge.to_s}', 'ETH' => '#{saldo_eth.to_s}', 'BCH' => '#{saldo_bch.to_s}', 'XMR' => '#{saldo_xmr.to_s}', 'DASH' => '#{saldo_dash.to_s}'}"
-                return
             else
-                p "nenhuma operação para esse usuario"
+                p "Saldo não validado. "
                 render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
                 return
             end
-        else
-            p "Saldo não validado. "
+            
+            p "Usuário genérico não relacionado em local algum"
             render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
             return
+        rescue
+            render plain: "{'status' => 'something went wrong'}"
         end
-        
-        p "Usuário genérico não relacionado em local algum"
-        render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
-        return
     end
     def update_user
         @message = ""

@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
     decipher.iv = ENV["CIPHER_IV"]
     
     plain = decipher.update(params[:message]) + decipher.final
-    p plain
     @params = eval(plain)
     if @params['key'] == ENV["TRANSACTION_KEY"]
       true
