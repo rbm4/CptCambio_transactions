@@ -1,3 +1,3 @@
-class Operation < ActiveRecord::Base
+class Operation < ApplicationRecord
     belongs_to :user
 end

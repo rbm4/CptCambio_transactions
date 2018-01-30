@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
+  attr_reader :current_user
   helper_method :teste_ping
   helper_method :verify_key
   
@@ -21,7 +22,12 @@ class ApplicationController < ActionController::Base
       false
     end
   end
-  
+    private 
+  def authenticate_request 
+    @current_user = AuthorizeApiRequest.call(request.headers).result 
+    render json: { error: 'Not Authorized' }, status: 401 unless @current_user 
+  end
+
   def teste_ping
     #uri = URI('https://cpttransactions.herokuapp.com/add_users')
     #req = Net::HTTP::Post.new(uri)

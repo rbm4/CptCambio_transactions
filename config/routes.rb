@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :create, :show, :update, :destroy]
     end
   end
+  
+  post 'authenticate', to: 'authentication#authenticate'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
