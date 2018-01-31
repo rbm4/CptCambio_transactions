@@ -14,6 +14,7 @@ class NotificationsController < ApplicationController
             @message << "usuario #{b.username} adicionado.\n"
         else
             @message << "usuario #{a.username} ja existe\n"
+            render status: 409
         end
         
     end
