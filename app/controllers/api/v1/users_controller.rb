@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
         if user.save
             render(json: user, status: :ok)
         else
-            render status: 406
+            render(text: user.erros, status: 406)
         end
     end
 end
