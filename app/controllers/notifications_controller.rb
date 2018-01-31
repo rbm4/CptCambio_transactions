@@ -26,7 +26,12 @@ class NotificationsController < ApplicationController
         a = Operation.new
         a.currency = @params["currency"]
         a.tipo = @params["type"]
-        a.user_id = @params["user_id"]
+        if @params["user_id"].nil?
+            a.auser_id = @params["auser_id"]
+        else
+            a.user_id = @params["user_id"]
+        end
+        
         #true = contabilizar crédito
         #false = subtrair crédito
         a.debit_credit = @params["debit_credit"]
