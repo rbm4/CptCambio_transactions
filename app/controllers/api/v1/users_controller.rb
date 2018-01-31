@@ -1,6 +1,8 @@
 class Api::V1::UsersController < ApplicationController
     before_action :verify_key, only: [:create], raise: false
     before_action :authenticate_request, only: [:show], raise: false
+    skip_before_action :verify_authenticity_token
+    
     def show
         user = Auser.find(params[:id])
         
