@@ -13,10 +13,12 @@ class Api::V1::UsersController < ApplicationController
         if user.save
             render(json: user, status: :ok)
         else
+            string = ""
             user.errors.each do |m|
                 string << "#{m} /"
             end
-            render(text: user.errors, status: 406)
+            p string
+            render(text: string, status: 406)
         end
     end
     def saldos
