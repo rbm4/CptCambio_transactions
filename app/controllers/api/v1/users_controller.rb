@@ -13,6 +13,9 @@ class Api::V1::UsersController < ApplicationController
         if user.save
             render(json: user, status: :ok)
         else
+            user.errors.each do |m|
+                string << "#{m} /"
+            end
             render(text: user.errors, status: 406)
         end
     end
