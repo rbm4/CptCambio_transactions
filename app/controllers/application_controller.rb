@@ -21,12 +21,13 @@ class ApplicationController < ActionController::Base
       false
     end
   end
-    private 
-  def authenticate_request 
+     
+  def authenticate_request
+    p request.headers
     @current_user = AuthorizeApiRequest.call(request.headers).result 
     render json: { error: 'Not Authorized' }, status: 401 unless @current_user 
   end
-
+    private
   def teste_ping
     #uri = URI('https://cpttransactions.herokuapp.com/add_users')
     #req = Net::HTTP::Post.new(uri)
