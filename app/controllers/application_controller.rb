@@ -14,10 +14,8 @@ class ApplicationController < ActionController::Base
     
     plain = decipher.update(params[:message]) + decipher.final
     @params = eval(plain)
-    if @params['key'] == ENV["TRANSACTION_KEY"]
-      true
-    else
-      false
+    if !(@params['key'] == ENV["TRANSACTION_KEY"])
+      render text: "something went wrong" and return
     end
   end
      
