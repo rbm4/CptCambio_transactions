@@ -4,8 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
   attr_reader :current_user
-  helper_method :teste_ping
-  helper_method :verify_key
+  helper_method :teste_ping, :verify_key, :authenticate_request
   
   def verify_key
     decipher = OpenSSL::Cipher::AES.new(128, :CBC)
