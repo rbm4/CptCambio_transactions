@@ -11,7 +11,7 @@ class Api::V1::UsersController < ApplicationController
     def create #função de API para tratar os users vindos do PayPortal
         user = Auser.new(email: params[:email], password: params[:password])
         if user.save
-            render status: :ok
+            render(json: user, status: :ok)
         else
             render status: 406
         end
