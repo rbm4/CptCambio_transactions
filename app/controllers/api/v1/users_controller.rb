@@ -9,13 +9,13 @@ class Api::V1::UsersController < ApplicationController
         render(json: user)
     end
     def create #função de API para tratar os users vindos do PayPortal
-        user = Auser.new(email: @params[:email], password: @params[:password])
+        user = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
         if user.save
             render(json: user, status: :ok)
         else
             string = ""
             user.errors.each do |m|
-                string << "#{m} /"
+                string << "#{m.inspect} /"
             end
             p string
             render(text: string, status: 406)
