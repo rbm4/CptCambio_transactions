@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:index, :create, :show, :update, :destroy]
       post '/users/saldos' => 'users#saldos'
+      post '/users/add_saldo' => 'users#add_saldo'
     end
   end
   

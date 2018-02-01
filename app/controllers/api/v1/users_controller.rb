@@ -1,8 +1,34 @@
 class Api::V1::UsersController < ApplicationController
-    before_action :verify_key, only: [:create], raise: false
+    before_action :verify_key, only: [:create, :add_saldo], raise: false
     before_action :authenticate_request, only: [:show,:saldos], raise: false
     skip_before_action :verify_authenticity_token
     
+    def add_saldo #adicionar saldo aos usuários a partir de notificações de depósito enviadas da aplicação original
+        begin
+            returno = ""
+            #validar comunicação
+            user = Auser.find_by_email(@params["email"])
+            if user != nil 
+                a = user.operation.new
+                a.currency = @params["currency"].upcase
+                a.tipo = @params["type"]
+                if a.tipo == "exchange_sell" or a.tipo == "withdrawal" or a.tipo == "exchange_buy"
+                    a.debit_credit = false
+                else
+                    a.debit_credit = true
+                end
+                a.amount = @params["amount"]
+                a.save
+                returno << a.id
+                render plain: "{'status' => 'ok', 'id' => #{a.id}}" 
+            else
+                returno << "usuario nao existe ou o id_original esta errado."
+                render plain: "{'status' => 'usuario invalido', 'id' => #{Integer(returno)}}"
+            end
+        rescue
+            render plain: "{'status' => 'Something went wrong'}"
+        end
+    end
     def show
         user = Auser.find(params[:id])
         

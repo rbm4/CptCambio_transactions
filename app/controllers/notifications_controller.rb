@@ -47,7 +47,7 @@ class NotificationsController < ApplicationController
         begin
             returno = ""
             #validar comunicação
-            user = User.find_by_id_original(@params["id_original"])
+            user = User.find_by_email(@params["email"])
             if user != nil 
                 a = user.operation.new
                 a.currency = @params["currency"].upcase
