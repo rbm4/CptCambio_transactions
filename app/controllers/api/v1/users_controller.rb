@@ -13,11 +13,6 @@ class Api::V1::UsersController < ApplicationController
         if user.save
             render(json: user, status: :ok)
         else
-            string = ""
-            user.errors.each do |m|
-                string << "#{m.inspect} /"
-            end
-            p string
             render(text: string, status: 406)
         end
     end
@@ -31,6 +26,9 @@ class Api::V1::UsersController < ApplicationController
             saldo_ltc = BigDecimal(0,10)
             saldo_doge = BigDecimal(0,10)
             saldo_eth = BigDecimal(0,10)
+            saldo_dgb = BigDecimal(0,10)
+            saldo_zec = BigDecimal(0,10)
+            saldo_xrp = BigDecimal(0,10)
             @message = ""
             user = Auser.find_by_email(params["email"])
             if !user.nil?
@@ -43,6 +41,24 @@ class Api::V1::UsersController < ApplicationController
                                 saldo_btc = saldo_btc + amount
                             elsif l.debit_credit == false #subtrair
                                 saldo_btc = saldo_btc - amount
+                            end
+                        elsif l.currency == "XRP"
+                            if l.debit_credit == true #somar
+                                saldo_xrp = saldo_xrp + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_xrp = saldo_xrp - amount
+                            end
+                        elsif l.currency == "ZEC"
+                            if l.debit_credit == true #somar
+                                saldo_zec = saldo_zec + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_zec = saldo_zec - amount
+                            end
+                        elsif l.currency == "DGB"
+                            if l.debit_credit == true #somar
+                                saldo_dgb = saldo_dgb + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_dgb = saldo_dgb - amount
                             end
                         elsif l.currency == "LTC"
                             if l.debit_credit == true #somar
