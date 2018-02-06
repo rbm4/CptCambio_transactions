@@ -60,7 +60,7 @@ class NotificationsController < ApplicationController
                 a.amount = @params["amount"]
                 a.save
                 returno << a.id
-                render json: {'status' => 'ok', 'id' => a.id}
+                render plain: "{'status' => 'ok', 'id' => #{a.id}}"
             else
                 p returno << "usuario nao existe ou o id_original esta errado."
                 render plain: "{'status' => 'usuario invalido', 'id' => #{Integer(returno)}}"
