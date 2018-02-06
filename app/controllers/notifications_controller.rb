@@ -63,7 +63,7 @@ class NotificationsController < ApplicationController
                 render plain: "{'status' => 'ok', 'id' => #{a.id}}"
             else
                 p returno << "usuario nao existe ou o id_original esta errado."
-                render plain: "{'status' => 'usuario invalido', 'id' => #{Integer(returno)}}"
+                render plain: "{'status' => 'usuario invalido'}"
             end
         rescue
             p 'Something went wrong'
