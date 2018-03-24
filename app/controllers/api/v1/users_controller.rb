@@ -12,7 +12,7 @@ class Api::V1::UsersController < ApplicationController
                 a = user.operation.new
                 a.currency = @params["currency"].upcase
                 a.tipo = @params["type"]
-                if a.tipo == "exchange_sell" or a.tipo == "withdrawal" or a.tipo == "exchange_buy"
+                if a.tipo == "exchange_sell" or a.tipo == "withdrawal" or a.tipo == "exchange_buy" or a.tipo == "convert"
                     a.debit_credit = false
                 else
                     a.debit_credit = true
