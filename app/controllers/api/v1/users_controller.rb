@@ -42,11 +42,11 @@ class Api::V1::UsersController < ApplicationController
             ausers_balances["#{j}"] = 0
         end
         ops.each do |m|
-            number = m.amount
+            number = BigDecimal(m.amount,8)
             if !(m.debit_credit)
                 number = number * -1
             end
-            ausers_balances["#{m.currency.upcase}"] = ausers_balances["#{m.currency.upcase}"] + number
+            ausers_balances["#{m.currency.upcase}"] = (BigDecimal(ausers_balances["#{m.currency.upcase}"],8) + number).to_s
         end
         render text: "#{ausers_balances.to_json}" and return
     end
