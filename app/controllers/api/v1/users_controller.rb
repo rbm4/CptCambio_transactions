@@ -35,17 +35,15 @@ class Api::V1::UsersController < ApplicationController
         render(json: user)
     end
     def ausers_total
-        users = Auser.all
+        ops = Operation.all
         ausers_balances = Hash.new
-        users.each do |k|
-            k.operation.all do |m|
-                if m.any?
-                    number = m.amount
-                    if !(m.debit_credit)
-                        number = number * -1
-                    end
-                    ausers_balances["#{m.currency.upcase}"] = ausers_balances["#{m.currency.upcase}"] + number
+        ops.each do |m|
+            if m.any?
+                number = m.amount
+                if !(m.debit_credit)
+                    number = number * -1
                 end
+                ausers_balances["#{m.currency.upcase}"] = ausers_balances["#{m.currency.upcase}"] + number
             end
         end
         render text: "#{ausers_balances.to_json}" and return
