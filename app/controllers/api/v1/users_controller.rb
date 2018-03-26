@@ -48,6 +48,7 @@ class Api::V1::UsersController < ApplicationController
                 end
             end
         end
+        render text: "#{ausers_balances.to_json}" and return
     end
     def create #função de API para tratar os users vindos do PayPortal
         user = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
