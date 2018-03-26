@@ -37,6 +37,10 @@ class Api::V1::UsersController < ApplicationController
     def ausers_total
         ops = Operation.all
         ausers_balances = Hash.new
+        moedas = ["BTC","LTC","XRP","DGB","DOGE","ETH","XMR","DASH","BCH","DOGE","ZEC"]
+        moedas.each do |j|
+            ausers_balances["#{j}"] = 0
+        end
         ops.each do |m|
             number = m.amount
             if !(m.debit_credit)
