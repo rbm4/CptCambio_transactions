@@ -34,6 +34,21 @@ class Api::V1::UsersController < ApplicationController
         
         render(json: user)
     end
+    def ausers_total
+        users = Auser.all
+        ausers_balances = Hash.new
+        users.each do |k|
+            k.operation.all do |m|
+                if m.any?
+                    number = m.amount
+                    if !(m.debit_credit)
+                        number = number * -1
+                    end
+                    ausers_balances["#{m.currency.upcase}"] = ausers_balances["#{m.currency.upcase}"] + number
+                end
+            end
+        end
+    end
     def create #função de API para tratar os users vindos do PayPortal
         user = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
         if user.save
