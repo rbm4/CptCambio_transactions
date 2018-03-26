@@ -38,13 +38,11 @@ class Api::V1::UsersController < ApplicationController
         ops = Operation.all
         ausers_balances = Hash.new
         ops.each do |m|
-            if m.any?
-                number = m.amount
-                if !(m.debit_credit)
-                    number = number * -1
-                end
-                ausers_balances["#{m.currency.upcase}"] = ausers_balances["#{m.currency.upcase}"] + number
+            number = m.amount
+            if !(m.debit_credit)
+                number = number * -1
             end
+            ausers_balances["#{m.currency.upcase}"] = ausers_balances["#{m.currency.upcase}"] + number
         end
         render text: "#{ausers_balances.to_json}" and return
     end
