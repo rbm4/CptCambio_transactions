@@ -82,6 +82,7 @@ class NotificationsController < ApplicationController
             saldo_ltc = BigDecimal(0,10)
             saldo_doge = BigDecimal(0,10)
             saldo_eth = BigDecimal(0,10)
+            saldo_dgb = BigDecimal(0,10)
             @message = ""
             user = User.find_by_id_original(@params["id_original"])
             if !user.nil?
@@ -137,23 +138,29 @@ class NotificationsController < ApplicationController
                             elsif l.debit_credit == false #subtrair
                                 saldo_eth = saldo_eth - amount
                             end
+                        elsif l.currency == "DGB"
+                            if l.debit_credit == true #somar
+                                saldo_dgb = saldo_dgb + amount
+                            elsif l.debit_credit == false #subtrair
+                                saldo_dgb = saldo_dgb - amount
+                            end
                         end
                     end
-                    render plain: "{'BRL' => '#{saldo_brl.to_s}', 'BTC' => '#{saldo_btc.to_s}', 'LTC' => '#{saldo_ltc.to_s}', 'DOGE' => '#{saldo_doge.to_s}', 'ETH' => '#{saldo_eth.to_s}', 'BCH' => '#{saldo_bch.to_s}', 'XMR' => '#{saldo_xmr.to_s}', 'DASH' => '#{saldo_dash.to_s}'}"
+                    render plain: "{'BRL' => '#{saldo_brl.to_s}', 'BTC' => '#{saldo_btc.to_s}', 'LTC' => '#{saldo_ltc.to_s}', 'DOGE' => '#{saldo_doge.to_s}', 'ETH' => '#{saldo_eth.to_s}', 'BCH' => '#{saldo_bch.to_s}', 'XMR' => '#{saldo_xmr.to_s}', 'DASH' => '#{saldo_dash.to_s}', 'DGB' => '#{saldo_dgb.to_s}'}"
                     return
                 else
                     p "nenhuma operação para esse usuario"
-                    render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
+                    render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0, 'DGB' => 0.0}"
                     return
                 end
             else
                 p "Saldo não validado. "
-                render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
+                render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0, 'DGB' => 0.0}"
                 return
             end
             
             p "Usuário genérico não relacionado em local algum"
-            render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0}"
+            render plain: "{'BRL' => 0.0, 'BTC' => 0.0, 'LTC' => 0.0, 'DOGE' => 0.0, 'ETH' => 0.0, 'XMR' => 0.0, 'DASH' => 0.0, 'BCH' => 0.0, 'DGB' => 0.0}"
             return
         rescue
             render plain: "{'status' => 'something went wrong'}"
