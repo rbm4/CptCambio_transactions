@@ -15,7 +15,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :create, :show, :update, :destroy]
       post '/users/saldos' => 'users#saldos'
       get '/info/total', to: 'users#ausers_total'
-      post '/users/update/:email', to: 'users#update_auser'
+      post '/users/update/', to: 'users#update_auser'
       post '/users/add_saldo' => 'users#add_saldo'
     end
   end
