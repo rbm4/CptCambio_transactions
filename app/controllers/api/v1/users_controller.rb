@@ -1,8 +1,34 @@
 class Api::V1::UsersController < ApplicationController
-    before_action :verify_key, only: [:create, :add_saldo], raise: false
+    before_action :verify_key, only: [:create, :add_saldo, :update_auser], raise: false
     before_action :authenticate_request, only: [:show,:saldos], raise: false
     skip_before_action :verify_authenticity_token
-    
+    def create #função de API para tratar os users vindos do PayPortal
+        user = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
+        if user.save
+            render(json: user, status: :ok)
+        else
+            render(text: string, status: 406)
+        end
+    end
+    def update_auser
+        @message = ""
+        begin
+            a = Auser.find_by_email(@params["email"])
+            if a == nil
+                b = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
+                b.save
+                @message << "usuario #{b.username} adicionado.\n"
+            else
+                a.email = @params["email"]
+                a.password = @params["password"]
+                a.save
+                @message << "usuario #{a.username} ja existe, atualizado\n"
+            end
+        rescue
+            @message << "Something went wrong"
+        end
+        render plain: @message
+    end
     def add_saldo #adicionar saldo aos usuários a partir de notificações de depósito enviadas da aplicação original
         begin
             returno = ""
@@ -50,14 +76,7 @@ class Api::V1::UsersController < ApplicationController
         end
         render text: "#{ausers_balances.to_json}" and return
     end
-    def create #função de API para tratar os users vindos do PayPortal
-        user = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
-        if user.save
-            render(json: user, status: :ok)
-        else
-            render(text: string, status: 406)
-        end
-    end
+    
     def saldos
         begin
             saldo_brl = BigDecimal(0,10)
