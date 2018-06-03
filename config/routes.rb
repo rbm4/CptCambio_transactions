@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:index, :create, :show, :update, :destroy]
       post '/users/saldos' => 'users#saldos'
+      post '/users/saldos_integration' => 'users#saldos_unauthorized'
       get '/info/total', to: 'users#ausers_total'
       post '/users/update/', to: 'users#update_auser'
       post '/users/add_saldo' => 'users#add_saldo'
