@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-    before_action :verify_key, only: [:create, :add_saldo], raise: false
+    before_action :verify_key, only: [:create, :add_saldo,:saldos_unauthorized], raise: false
     before_action :authenticate_request, only: [:show,:saldos], raise: false
     skip_before_action :verify_authenticity_token
     skip_before_action :authenticate_request, only: [:update_auser,:saldos_unauthorized]
@@ -92,7 +92,7 @@ class Api::V1::UsersController < ApplicationController
             saldo_zec = BigDecimal(0,10)
             saldo_xrp = BigDecimal(0,10)
             @message = ""
-            user = Auser.find_by_email(params["email"])
+            user = Auser.find_by_email(@params["email"])
             if !user.nil?
                 k = user.operation.all
                 if k.any? 
