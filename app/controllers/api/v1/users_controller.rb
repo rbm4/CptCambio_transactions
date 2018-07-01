@@ -13,21 +13,21 @@ class Api::V1::UsersController < ApplicationController
     end
     def update_auser
         @message = ""
-        begin
-            a = Auser.find_by_email(@params["email"])
-            if a == nil
-                b = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
-                b.save
-                @message << "usuario #{b.username} adicionado.\n"
-            else
-                a.email = @params["email"]
-                a.password = @params["password"]
-                a.save
-                @message << "usuario #{a.username} ja existe, atualizado\n"
-            end
-        rescue
-            @message << "Something went wrong"
+        #begin
+        a = Auser.find_by_email(@params["email"])
+        if a == nil
+            b = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
+            b.save
+            @message << "usuario #{b.username} adicionado.\n"
+        else
+            a.email = @params["email"]
+            a.password = @params["password"]
+            a.save
+            @message << "usuario #{a.username} ja existe, atualizado\n"
         end
+        #rescue
+      #      @message << "Something went wrong"
+     #   end
         p @message
         render plain: @message
     end
