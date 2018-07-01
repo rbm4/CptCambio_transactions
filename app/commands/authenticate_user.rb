@@ -13,8 +13,8 @@ class AuthenticateUser
     def user 
         user = Auser.find_by_email(email) 
         p user
-        p @email
-        p @password
+        p email
+        p password
         return user if user && user.authenticate(password) 
         
         errors.add :user_authentication, 'invalid credentials' 
