@@ -18,12 +18,12 @@ class Api::V1::UsersController < ApplicationController
         if a == nil
             b = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
             b.save
-            @message << "usuario #{b.username} adicionado.\n"
+            @message << "usuario #{b.email} adicionado.\n"
         else
             a.email = @params["email"]
             a.password = @params["password"]
             a.save
-            @message << "usuario #{a.username} ja existe, atualizado\n"
+            @message << "usuario #{a.email} ja existe, atualizado\n"
         end
         #rescue
       #      @message << "Something went wrong"
