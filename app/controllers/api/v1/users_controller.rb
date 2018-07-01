@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-    before_action :verify_key, only: [:create, :add_saldo,:saldos_unauthorized], raise: false
+    before_action :verify_key, only: [:create, :add_saldo,:saldos_unauthorized,:update_auser], raise: false
     before_action :authenticate_request, only: [:show,:saldos], raise: false
     skip_before_action :verify_authenticity_token
     skip_before_action :authenticate_request, only: [:update_auser,:saldos_unauthorized]
