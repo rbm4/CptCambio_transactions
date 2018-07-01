@@ -13,8 +13,6 @@ class Api::V1::UsersController < ApplicationController
     end
     def update_auser
         @message = ""
-        #begin
-        p @params[:email]
         a = Auser.find_by_email(@params[:email])
         if a == nil
             b = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
@@ -24,14 +22,12 @@ class Api::V1::UsersController < ApplicationController
                 p b.errors
             end
         else
-            a.email = @params["email"]
-            a.password = @params["password"]
+            a.email = @params[:email]
+            a.password = @params[:password]
+            p a
             a.save
             @message << "usuario #{a.email} ja existe, atualizado\n"
         end
-        #rescue
-      #      @message << "Something went wrong"
-     #   end
         p @message
         render plain: @message
     end
