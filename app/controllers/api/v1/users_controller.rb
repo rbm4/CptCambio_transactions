@@ -25,6 +25,7 @@ class Api::V1::UsersController < ApplicationController
                 a.save
                 @message << "usuario #{a.username} ja existe, atualizado\n"
             end
+            p @message
         rescue
             @message << "Something went wrong"
         end
