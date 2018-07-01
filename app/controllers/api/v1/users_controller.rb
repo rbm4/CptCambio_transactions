@@ -25,10 +25,10 @@ class Api::V1::UsersController < ApplicationController
                 a.save
                 @message << "usuario #{a.username} ja existe, atualizado\n"
             end
-            p @message
         rescue
             @message << "Something went wrong"
         end
+        p @message
         render plain: @message
     end
     def add_saldo #adicionar saldo aos usuários a partir de notificações de depósito enviadas da aplicação original
