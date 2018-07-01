@@ -14,11 +14,15 @@ class Api::V1::UsersController < ApplicationController
     def update_auser
         @message = ""
         #begin
-        a = Auser.find_by_email(@params["email"])
+        p @params[:email]
+        a = Auser.find_by_email(@params[:email])
         if a == nil
             b = Auser.new(email: @params['email'], password: @params['password'], name: @params['name'])
-            b.save
-            @message << "usuario #{b.email} adicionado.\n"
+            if b.save
+                @message << "usuario #{b.email} adicionado.\n"
+            else
+                p b.errors
+            end
         else
             a.email = @params["email"]
             a.password = @params["password"]
